@@ -108,13 +108,12 @@ class Aem(Oadm):
         yield f'ATTITUDE_DIR = {meta_mandat["ATTITUDE_DIR"]}'
 
         yield f'TIME_SYSTEM = {meta_mandat["TIME_SYSTEM"]}'
-        if self.standard == 'CCSDS':
-            yield f'START_TIME = {self.format_time_string(df.iloc[0]["datetime"])}'
-            if 'USEABLE_START_TIME' in meta_opt:
-                yield f'USEABLE_START_TIME = {self.format_time_string(meta_opt["USEABLE_START_TIME"])}'
-            if 'USEABLE_STOP_TIME' in meta_opt:
-                yield f'USEABLE_STOP_TIME = {self.format_time_string(meta_opt["USEABLE_STOP_TIME"])}'
-            yield f'STOP_TIME = {self.format_time_string(df.iloc[-1]["datetime"])}'
+        yield f'START_TIME = {self.format_time_string(df.iloc[0]["datetime"])}'
+        if 'USEABLE_START_TIME' in meta_opt:
+            yield f'USEABLE_START_TIME = {self.format_time_string(meta_opt["USEABLE_START_TIME"])}'
+        if 'USEABLE_STOP_TIME' in meta_opt:
+            yield f'USEABLE_STOP_TIME = {self.format_time_string(meta_opt["USEABLE_STOP_TIME"])}'
+        yield f'STOP_TIME = {self.format_time_string(df.iloc[-1]["datetime"])}'
 
         yield f'ATTITUDE_TYPE = {meta_mandat["ATTITUDE_TYPE"]}'
         if 'QUATERNION_TYPE' in meta_opt:
@@ -203,13 +202,12 @@ class Oem(Oadm):
             yield f'REF_FRAME_EPOCH = {self.format_time_string(meta_opt["REF_FRAME_EPOCH"])}'
 
         yield f'TIME_SYSTEM = {meta_mandat["TIME_SYSTEM"]}'
-        if self.standard == 'CCSDS':
-            yield f'START_TIME = {self.format_time_string(df.iloc[0]["datetime"])}'
-            if 'USEABLE_START_TIME' in meta_opt:
-                yield f'USEABLE_START_TIME = {self.format_time_string(meta_opt["USEABLE_START_TIME"])}'
-            if 'USEABLE_STOP_TIME' in meta_opt:
-                yield f'USEABLE_STOP_TIME = {self.format_time_string(meta_opt["USEABLE_STOP_TIME"])}'
-            yield f'STOP_TIME = {self.format_time_string(df.iloc[-1]["datetime"])}'
+        yield f'START_TIME = {self.format_time_string(df.iloc[0]["datetime"])}'
+        if 'USEABLE_START_TIME' in meta_opt:
+            yield f'USEABLE_START_TIME = {self.format_time_string(meta_opt["USEABLE_START_TIME"])}'
+        if 'USEABLE_STOP_TIME' in meta_opt:
+            yield f'USEABLE_STOP_TIME = {self.format_time_string(meta_opt["USEABLE_STOP_TIME"])}'
+        yield f'STOP_TIME = {self.format_time_string(df.iloc[-1]["datetime"])}'
 
         if 'INTERPOLATION' in meta_opt:
             yield f'INTERPOLATION = {meta_opt["INTERPOLATION"]}'
