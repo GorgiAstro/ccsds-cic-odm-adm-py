@@ -1,30 +1,21 @@
 from datetime import datetime
+import pandas as pd
+import numpy as np
+from typing import List, Dict, Optional, Generator
 
 
 class Oadm:
     time_format = '%Y-%m-%dT%H:%M:%S.%f'
     odm_type = ''
 
-    def __init__(self, originator, standard='CCSDS'):
-        """
-
-        :param originator:
-        :param object_name:
-        :param object_id:
-        :param sat_properties: dict containing at least:
-            - mass: float, kg
-            - solar_rad_area: float, area for radiation pressure in m2
-            - solar_rad_coeff: float, radiation pressure coefficient
-            - drag_area: float, area for drag in m2
-            - drag_coeff: float, drag coefficient
-        """
+    def __init__(self, originator: str, standard: Optional[str] = 'CCSDS'):
         self.originator = originator
         self.standard = standard
 
-    def format_time_string(self, date):
+    def format_time_string(self, date: datetime) -> str:
         return date.strftime(self.time_format)[:-3]
 
-    def format_time_vector(self, df):
+    def format_time_vector(self, df: pd.DataFrame) -> np.array:
         if self.standard == 'CCSDS':
             if 'datetime' not in df:
                 print('Not good')  # TODO: raise exception
@@ -34,7 +25,7 @@ class Oadm:
                 print('Not good')  # TODO: raise exception
             return df['MJD'].apply(lambda x: f'{int(x)} {int(86400 * (x - int(x)))}')
 
-    def format_header(self, comments=[]):
+    def format_header(self, comments: Optional[List[str]] = []) -> Generator[str, None, None]:
         yield f'{self.standard}_{self.odm_type}_VERS = 2.0'
         for comment in comments:
             yield f'COMMENT {comment}'
@@ -42,7 +33,7 @@ class Oadm:
         yield f'ORIGINATOR = {self.originator}'
         yield ''
 
-    def write_file(self, segments, filename, comments=[]):
+    def write_file(self, segments: List[str], filename: str, comments: Optional[List[str]] = []) -> None:
         with open(filename, 'w') as file:
             file.writelines('\n'.join(self.format_header(comments)))
             file.writelines('\n'.join(segments))
@@ -73,7 +64,7 @@ class Aem(Oadm):
     }
 
     @staticmethod
-    def sample_meta_mandat():
+    def sample_meta_mandat() -> Dict[str, str]:
         meta_mandat = {
             'OBJECT_NAME': 'MARS GLOBAL SURVEYOR',
             'OBJECT_ID': '1996-062A',
@@ -86,7 +77,7 @@ class Aem(Oadm):
         return meta_mandat
 
     @staticmethod
-    def sample_meta_opt():
+    def sample_meta_opt() -> Dict[str, str]:
         meta_opt = {
             'CENTER_NAME': 'mars barycenter',
             'USEABLE_START_TIME': datetime(1996, 11, 28, 22, 8, 2, 555500),
@@ -97,7 +88,9 @@ class Aem(Oadm):
         }
         return meta_opt
 
-    def format_segment(self, df, meta_mandat, meta_opt={}, comments_meta=[], comments_data=[]):
+    def format_segment(self, df: pd.DataFrame, meta_mandat: Dict[str, str], meta_opt: Optional[Dict[str, str]] = {},
+                       comments_meta: Optional[List[str]] = [], comments_data: Optional[List[str]] = []) \
+            -> Generator[str, None, None]:
         yield ''
         yield 'META_START'
 
@@ -168,7 +161,7 @@ class Oem(Oadm):
     }
 
     @staticmethod
-    def sample_meta_mandat():
+    def sample_meta_mandat() -> Dict[str, str]:
         meta_mandat = {
             'OBJECT_NAME': 'STS 106',
             'OBJECT_ID': '2000-053A',
@@ -179,7 +172,7 @@ class Oem(Oadm):
         return meta_mandat
 
     @staticmethod
-    def sample_meta_opt():
+    def sample_meta_opt() -> Dict[str, str]:
         meta_opt = {
             'REF_FRAME_EPOCH': datetime(2000, 1, 1),
             'USEABLE_START_TIME': datetime(1996, 12, 18, 12, 10, 0, 331000),
@@ -189,7 +182,9 @@ class Oem(Oadm):
         }
         return meta_opt
 
-    def format_segment(self, df, meta_mandat, meta_opt={}, comments_meta=[], comments_data=[]):
+    def format_segment(self, df: pd.DataFrame, meta_mandat: Dict[str, str], meta_opt: Optional[Dict[str, str]] = {},
+                       comments_meta: Optional[List[str]] = [], comments_data: Optional[List[str]] = [])\
+            -> Generator[str, None, None]:
         yield ''
         yield 'META_START'
 
