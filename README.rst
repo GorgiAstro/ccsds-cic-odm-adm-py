@@ -1,12 +1,13 @@
 odmadmpy
 ========
 
-`odmadmpy` is a quick and dirty Python library to write CCSDS Orbit Data Messages (ODM) and Attitude Data Messages (ADM) files.
+**odmadmpy** is a quick and dirty Python library to write CCSDS Orbit Data Messages (ODM) and Attitude Data Messages (ADM) files.
 
 Installation
 ============
 
-`pip install -r requirements.txt`
+.. code-block:: shell
+    pip install -r requirements.txt
 
 CCSDS ODM and ADM
 =================
