@@ -7,6 +7,7 @@ from typing import List, Dict, Optional, Generator
 class Oadm:
     time_format = '%Y-%m-%dT%H:%M:%S.%f'
     odm_type = ''
+    revision = ''
 
     def __init__(self, originator: str, standard: Optional[str] = 'CCSDS'):
         self.originator = originator
@@ -26,7 +27,7 @@ class Oadm:
             return df['MJD'].apply(lambda x: f'{int(x)} {int(86400 * (x - int(x)))}')
 
     def format_header(self, comments: Optional[List[str]] = []) -> Generator[str, None, None]:
-        yield f'{self.standard}_{self.odm_type}_VERS = 2.0'
+        yield f'{self.standard}_{self.odm_type}_VERS = {self.revision}'
         for comment in comments:
             yield f'COMMENT {comment}'
         yield f'CREATION_DATE = {self.format_time_string(datetime.utcnow())}'
@@ -42,6 +43,7 @@ class Oadm:
 
 class Aem(Oadm):
     odm_type = 'AEM'
+    revision = '1.0'
 
     meta_mandat_keys = {
         'OBJECT_NAME',
@@ -144,6 +146,7 @@ class Aem(Oadm):
 
 class Oem(Oadm):
     odm_type = 'OEM'
+    revision = '2.0'
 
     meta_mandat_keys = {
         'OBJECT_NAME',
