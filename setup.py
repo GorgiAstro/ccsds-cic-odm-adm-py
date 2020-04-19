@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Learn more: https://github.com/kennethreitz/setup.py
-
 from setuptools import setup, find_packages
 
 
@@ -12,14 +10,13 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='sample',
+    name='odmadmpy',
     version='0.1.0',
-    description='Sample package for Python-Guide.org',
+    description='A quick and dirty writer for CCSDS and CIC Orbit and Attitude Data Messages',
     long_description=readme,
-    author='Kenneth Reitz',
-    author_email='me@kennethreitz.com',
-    url='https://github.com/kennethreitz/samplemod',
+    author='Clément Jonglez',
+    author_email='clement@jonglez.space',
+    url='https://github.com/GorgiAstro/ccsds-cic-odm-adm-py',
     license=license,
-    packages=find_packages(exclude=('tests', 'docs'))
+    packages=find_packages(exclude=('samples', 'docs', 'generated-ccsds-cic'))
 )
-
